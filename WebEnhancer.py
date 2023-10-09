@@ -7,26 +7,20 @@ import inspect
 from jinja2 import Template as jinja2Template
 import tempfile
 from typing import Dict, List, Type
-from src.model.load_model import load_model
+from transformers import AutoModelForCausalLM, AutoTokenizer  # Import from transformers
 from src.tasks.utils_typing import AnnotationList
 from guidelines import *  # Import your defined guidelines
-from src.tasks.utils_scorer import RelationScorer
+from tasks.utils_scorer import RelationScorer  # Updated import path
 import requests
 from bs4 import BeautifulSoup
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
-# Load GoLLIE model
-model, tokenizer = load_model(
-    inference=True,
-    model_weights_name_or_path="HiTZ/GoLLIE-7B",
-    quantization=None,
-    use_lora=False,
-    force_auto_device_map=True,
-    use_flash_attention=True,
-    torch_dtype="bfloat16"
-)
+# Load GoLLIE model and tokenizer from Hugging Face Model Hub
+model_name = "HiTZ/GoLLIE-7B"
+model = AutoModelForCausalLM.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 # Function to fetch a web page and extract text
 def extract_text_from_web_page(url):
@@ -117,3 +111,4 @@ scorer = MyScorer()
 # Compute F1 score
 scorer_results = scorer(reference=[gold], predictions=[result])
 print(scorer_results)
+
