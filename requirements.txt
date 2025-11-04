@@ -1,7 +1,13 @@
-black==21.12b0
-bs4==0.0.1
-jinja2==3.0.2
-requests==2.26.0
-torch==2.1.0
-beautifulsoup4==4.10.0
-transformers==4.11.3
+# Core dependencies
+black>=24.0.0
+jinja2>=3.1.0
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+bs4>=0.0.2
+
+# ML/AI dependencies
+torch>=2.1.0
+transformers>=4.35.0
+
+# Optional: for better performance
+# accelerate>=0.24.0  # For faster model loading
